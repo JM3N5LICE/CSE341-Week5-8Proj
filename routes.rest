@@ -1,36 +1,38 @@
 // LOCALHOST
 ### Retrieve all contacts
-GET http://localhost:8080/contacts
+GET http://localhost:8080/movies
 
 ### Retrieve contact by id
-GET http://localhost:8080/contacts/65ab1926ba6288f9371ae094
+GET http://localhost:8080/movies/65c7914a610531c90137c4f0
 
 ### Create contact
-POST http://localhost:8080/contacts HTTP/1.1
+POST http://localhost:8080/movies HTTP/1.1
 content-type: application/json
 
 {
-    "firstName":"Henri",
-    "lastName":"Mencil",
-    "email":"henomen@gmail.com",
-    "favoriteColor":"green",
-    "birthday":"Feb 28, 2007"
+    "title": "Tron: Legacy",
+    "releaseDate": "December 17, 2010",
+    "description": "The son of a virtual world designer goes looking for his father and ends up inside the digital world that his father designed. He meets his father's corrupted creation and a unique ally who was born inside the digital world.",
+    "director": "Joseph Kosinski",
+    "genre": "Sci-Fi",
+    "rating": "PG"
 }
 
 ### PUT contact (update: add id to url)
-PUT http://localhost:8080/contacts/65b478ae208de4ec8e2477e2 HTTP/1.1
+PUT http://localhost:8080/movies/ HTTP/1.1
 content-type: application/json
 
 {
-    "firstName":"Henry",
-    "lastName":"Mencl",
-    "email":"henmen@gmail.com",
-    "favoriteColor":"blue",
-    "birthday":"February 28, 2007"
+    "title": "",
+    "releaseDate": "",
+    "description": "",
+    "director": "",
+    "genre": "",
+    "rating": ""
 }
 
 ### DELETE contact (add id to url)
-DELETE http://localhost:8080/contacts/65b4787c208de4ec8e2477e1 HTTP/1.1
+DELETE http://localhost:8080/movies/65c7df249b794bd48c6127a7 HTTP/1.1
 
 
 // PRODUCTION Deploy

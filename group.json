@@ -1,8 +1,8 @@
 [
     {
-      "name": "",
-      "admin": "",
-      "members": [],
+      "name": "FHE Group",
+      "admin": "Justyn",
+      "members": ["Justyn"],
       "matchedMovies": []
     }
 ]
