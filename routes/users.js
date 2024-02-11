@@ -7,16 +7,6 @@ const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const groupsController = require('../controllers/groups');
 
-// Movie Routes
-router.get('/', moviesController.getAllMovies);
-
-router.get('/:id', moviesController.getSingleMovie);
-
-router.post('/', moviesController.createMovie);
-
-router.put('/:id', moviesController.updateMovie);
-
-router.delete('/:id', moviesController.deleteMovie );
 
 // User Routes
 
@@ -32,4 +22,3 @@ router.delete('/:id', usersController.deleteUser);
 
 // Export the router to be used in other modules
 module.exports = router;
-
