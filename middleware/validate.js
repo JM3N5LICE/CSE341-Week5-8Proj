@@ -4,7 +4,7 @@ const saveMovie = (req, res, next) => {
   const validationRule = {
     title: 'required|string',
     releaseDate: 'required|string',
-    description: 'required|email',
+    description: 'required|string',
     director: 'required|string',
     genre: 'required|string',
     rating: 'required|string'
