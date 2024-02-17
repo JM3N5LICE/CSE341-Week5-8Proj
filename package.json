@@ -17,7 +17,8 @@
     "express": "^4.16.3",
     "express-validator": "^7.0.1",
     "mongodb": "^4.4.0",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "validatejs": "^0.0.2"
   },
   "devDependencies": {
     "nodemon": "^1.18.4",
