@@ -5,7 +5,7 @@ const mongodb = require('../db/connect');
 const ObjectId = require('mongodb').ObjectId;
 
 // Function to get all movies from the database
-const getAllMovies = async (req, res, next) => {
+const getAllMovies = async (req, res) => {
 // Use the 'find' method to get all documents from the 'contacts' collection
   mongodb
     .getDb()
@@ -22,7 +22,7 @@ const getAllMovies = async (req, res, next) => {
 };
 
 // Function to get a single movie by ID from the database
-const getSingleMovie = async (req, res, next) => {
+const getSingleMovie = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json({ error: 'Invalid movie ID.' });
     return;
@@ -44,7 +44,7 @@ const getSingleMovie = async (req, res, next) => {
 
 
 // Function to create a new movie in the database
-const createMovie = async (req, res, next) => {
+const createMovie = async (req, res) => {
   // Implement logic to create a new movie in the 'movies' collection
   try {
     const movie = {
@@ -81,7 +81,7 @@ const createMovie = async (req, res, next) => {
 };
 
 // Function to update an existing movie in the database
-const updateMovie = async (req, res, next) => {
+const updateMovie = async (req, res) => {
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json({ error: 'Invalid movie ID.' });
     return;
@@ -111,7 +111,7 @@ const updateMovie = async (req, res, next) => {
 };
 
 // Function to delete a movie from the database
-const deleteMovie = async (req, res, next) => {
+const deleteMovie = async (req, res) => {
   // Implement logic to delete a movie from the 'movies' collection
   if (!ObjectId.isValid(req.params.id)) {
     res.status(400).json({ error: 'Invalid movie ID.' });
