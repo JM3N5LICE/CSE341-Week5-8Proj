@@ -21,15 +21,15 @@ router.delete('/:id', moviesController.deleteMovie );
 
 // User Routes
 
-router.get('/', usersController.getAllUsers);
+// router.get('/', usersController.getAllUsers);
 
-router.get('/:id', usersController.getSingleUser);
+// router.get('/:id', usersController.getSingleUser);
 
-router.post('/', usersController.createUser);
+// router.post('/', usersController.createUser);
 
-router.put('/:id', usersController.updateUser);
+// router.put('/:id', usersController.updateUser);
 
-router.delete('/:id', usersController.deleteUser);
+// router.delete('/:id', usersController.deleteUser);
 
 // Export the router to be used in other modules
 module.exports = router;
