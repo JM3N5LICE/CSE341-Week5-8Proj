@@ -4,8 +4,8 @@ const router = express.Router();
 
 // Import the 'contactsController' module, which contains functions for handling contact-related routes
 const moviesController = require('../controllers/movies');
-const usersController = require('../controllers/users');
-const groupsController = require('../controllers/groups');
+// const usersController = require('../controllers/users');
+// const groupsController = require('../controllers/groups');
 const validation = require('../middleware/validate');
 
 // Movie Routes
