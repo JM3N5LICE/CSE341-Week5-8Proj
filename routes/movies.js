@@ -6,15 +6,16 @@ const router = express.Router();
 const moviesController = require('../controllers/movies');
 const usersController = require('../controllers/users');
 const groupsController = require('../controllers/groups');
+const validation = require('../middleware/validate');
 
 // Movie Routes
 router.get('/', moviesController.getAllMovies);
 
 router.get('/:id', moviesController.getSingleMovie);
 
-router.post('/', moviesController.createMovie);
+router.post('/', validation.saveMovie, moviesController.createMovie);
 
-router.put('/:id', moviesController.updateMovie);
+router.put('/:id', validation.saveMovie, moviesController.updateMovie);
 
 router.delete('/:id', moviesController.deleteMovie );
 

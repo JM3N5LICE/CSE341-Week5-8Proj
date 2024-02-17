@@ -6,35 +6,42 @@ const ObjectId = require('mongodb').ObjectId;
 
 // Function to get all movies from the database
 const getAllMovies = async (req, res, next) => {
-    // Use the 'find' method to get all documents from the 'contacts' collection
-    const result = await mongodb.getDb().db().collection('movies').find();
-  
-    // Convert the result to an array and send it as a JSON response
-    result.toArray().then((lists) => {
+// Use the 'find' method to get all documents from the 'contacts' collection
+  mongodb
+    .getDb()
+    .db()
+    .collection('movies')
+    .find()
+    .toArray((err, lists) => {
+      if (err) {
+        res.status(400).json({ error: 'Failed to get movies.' });
+      }
       res.setHeader('Content-Type', 'application/json');
       res.status(200).json(lists);
-    });
+  });
 };
 
 // Function to get a single movie by ID from the database
 const getSingleMovie = async (req, res, next) => {
-  // Implement logic to get a single movie by ID from the 'movies' collection
-  // Create an ObjectId from the request parameter 'id'
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ error: 'Invalid movie ID.' });
+    return;
+  }
   const userId = new ObjectId(req.params.id);
-
-  // Use the 'find' method to get a document with the specified ID from the 'contacts' collection
-  const result = await mongodb
+  mongodb
     .getDb()
     .db()
     .collection('movies')
-    .find({ _id: userId });
-
-  // Convert the result to an array and send the first element as a JSON response
-  result.toArray().then((lists) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.status(200).json(lists[0]);
+    .find({ _id: userId })
+    .toArray((err, result) => {
+      if (err) {
+        res.status(400).json({ error: 'Failed to get movie.' });
+      }
+      res.setHeader('Content-Type', 'application/json');
+      res.status(200).json(result[0]);
   });
 };
+
 
 // Function to create a new movie in the database
 const createMovie = async (req, res, next) => {
@@ -75,6 +82,10 @@ const createMovie = async (req, res, next) => {
 
 // Function to update an existing movie in the database
 const updateMovie = async (req, res, next) => {
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ error: 'Invalid movie ID.' });
+    return;
+  }
   // Implement logic to update an existing movie in the 'movies' collection
   const movieId = new ObjectId(req.params.id);
   // be aware of updateOne if you only want to update specific fields
@@ -95,13 +106,17 @@ const updateMovie = async (req, res, next) => {
   if (response.modifiedCount > 0) {
     res.status(204).send();
   } else {
-    res.status(500).json(response.error || 'Some error occurred while updating the contact.');
+    res.status(500).json(response.error || 'Some error occurred while updating the movie.');
   }
 };
 
 // Function to delete a movie from the database
 const deleteMovie = async (req, res, next) => {
   // Implement logic to delete a movie from the 'movies' collection
+  if (!ObjectId.isValid(req.params.id)) {
+    res.status(400).json({ error: 'Invalid movie ID.' });
+    return;
+  }
   const movieId = new ObjectId(req.params.id);
   const response = await mongodb.getDb().db().collection('movies').deleteOne({ _id: movieId });
 
