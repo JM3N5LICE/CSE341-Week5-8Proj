@@ -130,9 +130,9 @@ const deleteUser = async (req, res) => {
     const response = await mongodb.getDb().db().collection('users').deleteOne({ _id: userId });
 
     if (response.deletedCount > 0) {
-      res.status(204).send();
+      res.status(200).send();
     } else {
-      res.status(404).json({ error: 'User not found' }); // Update error message for user not found
+      res.status(400).json({ error: 'User not found' }); // Update error message for user not found
     }
   } catch (error) {
     console.error(error);
