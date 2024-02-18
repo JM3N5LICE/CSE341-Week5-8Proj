@@ -25,8 +25,8 @@ const saveMovie = (req, res, next) => {
 const saveUser = (req, res, next) => {
   const validationRule = {
     name: 'required|string',
-    likedMovies: 'required|array',
-    groups: 'required|array'
+    likedMovies: 'array',
+    groups: 'array'
   };
   validator(req.body, validationRule, {}, (err, status) => {
     if (!status) {
