@@ -52,64 +52,71 @@ const getSingleUser = async (req, res) => {
 
 // Function to create a new movie in the database
 const createUser = async (req, res) => {
-  // Implement logic to create a new movie in the 'movies' collection
   try {
+    const name = req.body.name;
+    if (!name) {
+      return res.status(400).json({ error: 'Username is required.' });
+    }
+
     const user = {
-      name: req.body.name,
-      likedMovies: req.body.likedMovies,
-      groups: req.body.groups
+      name: name,
+      likedMovies: req.body.likedMovies || [], // Generate empty array if not provided
+      groups: req.body.groups || [] // Generate empty array if not provided
     };
 
     const response = await mongodb.getDb().db().collection('users').insertOne(user);
 
     if (response.acknowledged) {
-        res.status(201).json({
-          success: true,
-          user: user, // Return the inserted movie data
-          message: 'User created successfully.'
-        });
-      } else {
-        console.error('Failed to insert user. MongoDB response:', response);
-        res.status(500).json({
-          success: false,
-          error: 'Failed to insert user.'
-        });
-      }
-    } catch (error) {
-      console.error(error);
+      res.status(201).json({
+        success: true,
+        user: user,
+        message: 'User created successfully.'
+      });
+    } else {
+      console.error('Failed to insert user. MongoDB response:', response);
       res.status(500).json({
         success: false,
-        error: 'Internal Server Error'
+        error: 'Failed to insert user.'
       });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error'
+    });
+  }
 };
 
 // Function to update an existing user in the database
 const updateUser = async (req, res) => {
   try {
-    if (!ObjectId.isValid(req.params.id)) {
-      res.status(400).json({ error: 'Invalid user ID.' });
-    }
     const userId = new ObjectId(req.params.id);
+    const name = req.body.name;
+    if (!name) {
+      return res.status(400).json({ error: 'Username is required.' });
+    }
+
     const user = {
-      name: req.body.name,
-      likedMovies: req.body.likedMovies,
-      groups: req.body.groups
+      name: name,
+      likedMovies: req.body.likedMovies || [], // Generate empty array if not provided
+      groups: req.body.groups || [] // Generate empty array if not provided
     };
+
     const response = await mongodb
       .getDb()
       .db()
       .collection('users')
       .replaceOne({ _id: userId }, user);
-    console.log(response);
+
     if (response.modifiedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(404).json({ error: 'User not found' }); // Update error message for user not found
+      res.status(404).json({ error: 'User not found' });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' }); // Generic error message for server errors
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 
