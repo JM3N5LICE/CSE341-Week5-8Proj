@@ -4,7 +4,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://cse341movie.onrender.com/',
   clientID: 'vRRJlC66eWClO5HvLe0DFzpFTCTpd255',
   issuerBaseURL: 'https://dev-gm1z4qm5wulqlarf.us.auth0.com'
 };
