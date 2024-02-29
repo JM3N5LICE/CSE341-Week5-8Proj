@@ -22,7 +22,7 @@ const config = {
   authRequired: false,
   auth0Logout: true,
   secret: 'a long, randomly-generated string stored in env',
-  baseURL: 'https://cse341movie.onrender.com/',
+  baseURL: 'https://cse341movie.onrender.com', // Update the base URL for your Render deployment
   clientID: 'vRRJlC66eWClO5HvLe0DFzpFTCTpd255',
   issuerBaseURL: 'https://dev-gm1z4qm5wulqlarf.us.auth0.com'
 };
