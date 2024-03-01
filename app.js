@@ -29,12 +29,12 @@ const config = {
 app.use(auth(config));
 
 // Routes
-// app.get('/', (req, res) => {
-//   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-// });
+app.get('/', (req, res) => {
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+});
 
 // Include the routes defined in the 'routes' module
-app.use('/', require('./routes'));
+// app.use('/', require('./routes'));
 
 // Initialize the database connection and start the server
 mongodb.initDb((err, mongodb) => {
