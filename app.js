@@ -1,19 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongodb = require('./db/connect');
-const { auth } = require('express-openid-connect');
+const { auth, requiresAuth } = require('express-openid-connect');
 
 const port = process.env.PORT || 8080;
 const app = express();
-
-// Middleware to parse incoming JSON request bodies
-app.use(bodyParser.json());
-
-// Middleware for CORS
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  next();
-});
 
 // Authentication middleware setup
 const config = {
@@ -39,7 +30,7 @@ app.get('/', (req, res) => {
 //     <h1>Welcome!</h1>
 //     <p>You are logged in.</p>
 //     <p><a href="/api-docs">Go to Swagger page (API Docs)</a></p>
-//     <p><a href="/render">Go to Render page</a></p>
+//     <p><a href="/render">Go to Render page</a></p>un
 //   `);
 // });
 
@@ -47,6 +38,19 @@ app.get('/', (req, res) => {
 app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 });
+
+// Middleware to parse incoming JSON request bodies
+app.use(bodyParser.json());
+
+
+
+// Middleware for CORS
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
+
 
 // Include the routes defined in the 'routes' module
 app.use('/', require('./routes'));
