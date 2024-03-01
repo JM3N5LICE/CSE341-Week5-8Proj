@@ -25,22 +25,35 @@ const config = {
   issuerBaseURL: 'https://dev-gm1z4qm5wulqlarf.us.auth0.com'
 };
 
-// auth router attaches /login, /logout, and /callback routes to the baseURL
+// Use auth middleware
 app.use(auth(config));
 
-// Routes
+// Define a route to handle requests to the root URL (/)
 app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+  // Display a welcome message and links to other routes
+  res.send(`
+    <h1>Welcome!</h1>
+    <p>You are logged in.</p>
+    <p><a href="/api-docs">Go to Swagger page (API Docs)</a></p>
+    <p><a href="/render">Go to Render page</a></p>
+  `);
+});
+
+// Define a route to handle redirection after login
+app.get('/callback', (req, res) => {
+  // Redirect user to Swagger page (/api-docs) after login
+  res.redirect('/api-docs');
 });
 
 // Include the routes defined in the 'routes' module
-// app.use('/', require('./routes'));
+app.use('/', require('./routes'));
 
 // Initialize the database connection and start the server
 mongodb.initDb((err, mongodb) => {
   if (err) {
     console.log(err);
   } else {
+    // If the database connection is successful, start the server and log a message
     app.listen(port, () => {
       console.log(`Connected to DB and listening on ${port}`);
     });
