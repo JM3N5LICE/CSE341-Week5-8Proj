@@ -1,12 +1,15 @@
-const express = require('express');
+var express = require('express');
 const bodyParser = require('body-parser');
+var app = express();
+app.use(express.json());
+const port = process.env.PORT || 8080;
 const mongodb = require('./db/connect');
+// const swaggerUi = require('swagger-ui-express');
+// const swaggerDocument = require('swagger.json');
+
+// Okta Authentication with google
 const { auth, requiresAuth } = require('express-openid-connect');
 
-const port = process.env.PORT || 8080;
-const app = express();
-
-// Authentication middleware setup
 const config = {
   authRequired: false,
   auth0Logout: true,
@@ -16,53 +19,36 @@ const config = {
   issuerBaseURL: process.env.ISSUER_BASE_URL
 };
 
-// Use auth middleware
+// auth router attaches /login, /logout, and /callback routes to the baseURL
 app.use(auth(config));
 
+// req.isAuthenticated is provided from the auth router
 app.get('/', (req, res) => {
   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
 
-// Define a route to handle requests to the root URL (/)
-// app.get('/', (req, res) => {
-//   // Display a welcome message and links to other routes
-//   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
-//     <h1>Welcome!</h1>
-//     <p>You are logged in.</p>
-//     <p><a href="/api-docs">Go to Swagger page (API Docs)</a></p>
-//     <p><a href="/render">Go to Render page</a></p>un
-//   `);
-// });
-
-// Define a route to handle redirection after login
 app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
 });
 
-// Middleware to parse incoming JSON request bodies
-app.use(bodyParser.json());
+app
+  .use(bodyParser.json())
+  .use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+  })
+  .use('/', require('./routes'));
 
 
-
-// Middleware for CORS
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  next();
+app.listen(8080, () => {
+    console.log(`server started on port ${port}`);
 });
 
-
-
-// Include the routes defined in the 'routes' module
-app.use('/', require('./routes'));
-
-// Initialize the database connection and start the server
 mongodb.initDb((err, mongodb) => {
-  if (err) {
-    console.log(err);
-  } else {
-    // If the database connection is successful, start the server and log a message
-    app.listen(port, () => {
-      console.log(`Connected to DB and listening on ${port}`);
-    });
-  }
+    if (err) {
+        console.log(err);
+    } else {
+        //app.listen(port);
+        console.log(`Connected to DB and listening on ${port}`);
+    }
 });
