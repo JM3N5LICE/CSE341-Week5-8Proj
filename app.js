@@ -29,9 +29,9 @@ const config = {
 app.use(auth(config));
 
 // Routes
-app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
-});
+// app.get('/', (req, res) => {
+//   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+// });
 
 // Include the routes defined in the 'routes' module
 app.use('/', require('./routes'));
