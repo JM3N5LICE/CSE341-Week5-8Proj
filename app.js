@@ -28,16 +28,20 @@ const config = {
 // Use auth middleware
 app.use(auth(config));
 
-// Define a route to handle requests to the root URL (/)
 app.get('/', (req, res) => {
-  // Display a welcome message and links to other routes
-  res.send(`
-    <h1>Welcome!</h1>
-    <p>You are logged in.</p>
-    <p><a href="/api-docs">Go to Swagger page (API Docs)</a></p>
-    <p><a href="/render">Go to Render page</a></p>
-  `);
+  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
 });
+
+// Define a route to handle requests to the root URL (/)
+// app.get('/', (req, res) => {
+//   // Display a welcome message and links to other routes
+//   res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out'
+//     <h1>Welcome!</h1>
+//     <p>You are logged in.</p>
+//     <p><a href="/api-docs">Go to Swagger page (API Docs)</a></p>
+//     <p><a href="/render">Go to Render page</a></p>
+//   `);
+// });
 
 // Define a route to handle redirection after login
 app.get('/callback', (req, res) => {
