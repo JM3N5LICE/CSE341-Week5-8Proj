@@ -19,10 +19,10 @@ app.use((req, res, next) => {
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: 'a long, randomly-generated string stored in env',
+  secret: process.env.CLIENT_SECRET,
   baseURL: 'https://cse341movie.onrender.com',
-  clientID: 'vRRJlC66eWClO5HvLe0DFzpFTCTpd255',
-  issuerBaseURL: 'https://dev-gm1z4qm5wulqlarf.us.auth0.com'
+  clientID: process.env.CLIENT_ID,
+  issuerBaseURL: process.env.ISSUER_BASE_URL
 };
 
 // Use auth middleware
