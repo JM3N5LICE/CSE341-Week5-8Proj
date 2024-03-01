@@ -44,9 +44,8 @@ app.get('/', (req, res) => {
 // });
 
 // Define a route to handle redirection after login
-app.get('/callback', (req, res) => {
-  // Redirect user to Swagger page (/api-docs) after login
-  res.redirect('/api-docs');
+app.get('/profile', requiresAuth(), (req, res) => {
+  res.send(JSON.stringify(req.oidc.user));
 });
 
 // Include the routes defined in the 'routes' module
